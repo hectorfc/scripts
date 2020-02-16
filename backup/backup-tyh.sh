@@ -13,7 +13,7 @@ rsync -a /data/administracion /data/backup/$fecha/administracion
 
 
 # El primero de cada mes conservamos un respaldo de los homes.
-# Revisamos si el primero de cada mes.
+# Revisamos si es primero de cada mes.
 if [[ $dia == 01 ]] ; then
     mkdir -p $destino_mensual
     rsync -a  --exclude="hector" /home/  /data/respaldo_mensual/$fecha/home/
@@ -21,3 +21,6 @@ if [[ $dia == 01 ]] ; then
 else
     exit 0
 fi
+
+# Solamente conservamos los ultimos 30 dias de respaldo de los homes.
+find /data/backup/ -maxdepth 0 -type d -ctime +30 -exec rm -rf {} \;
